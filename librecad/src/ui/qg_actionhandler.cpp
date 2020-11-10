@@ -40,6 +40,7 @@
 #include "rs_actionblocksexplode.h"
 #include "rs_actionblocksfreezeall.h"
 #include "rs_actionblocksinsert.h"
+#include "rs_actionblocksthumb.h"
 #include "rs_actionblocksremove.h"
 #include "rs_actionblockstoggleview.h"
 #include "rs_actiondimaligned.h"
@@ -897,6 +898,9 @@ RS_ActionInterface* QG_ActionHandler::setCurrentAction(RS2::ActionType id) {
         break;
     case RS2::ActionBlocksInsert:
         a = new RS_ActionBlocksInsert(*document, *view);
+        break;
+    case RS2::ActionBlocksThumb:
+        a = new RS_ActionBlocksThumb(*document, *view);
         break;
     case RS2::ActionBlocksToggleView:
         a = new RS_ActionBlocksToggleView(*document, *view);
@@ -1890,6 +1894,10 @@ void QG_ActionHandler::slotBlocksSave() {
 
 void QG_ActionHandler::slotBlocksInsert() {
     setCurrentAction(RS2::ActionBlocksInsert);
+}
+
+void QG_ActionHandler::slotBlocksThumb() {
+    setCurrentAction(RS2::ActionBlocksThumb);
 }
 
 void QG_ActionHandler::slotBlocksToggleView() {

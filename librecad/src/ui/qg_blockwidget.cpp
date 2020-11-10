@@ -237,6 +237,15 @@ QG_BlockWidget::QG_BlockWidget(QG_ActionHandler* ah, QWidget* parent,
     //layButtons2->addWidget(but);
     layButtons->addWidget(but);
 
+    //测试缩略图
+    but = new QToolButton(this);
+    but->setIcon(QIcon(":/icons/update_block_thumb.svg"));
+    but->setMinimumSize(button_size);
+    but->setToolTip(tr("update thumbnail"));
+    connect(but, &QToolButton::clicked, actionHandler, &QG_ActionHandler::slotBlocksThumb);
+    //layButtons2->addWidget(but);
+    layButtons->addWidget(but);
+
     // lineEdit to filter block list with RegEx
     matchBlockName = new QLineEdit(this);
     matchBlockName->setReadOnly(false);

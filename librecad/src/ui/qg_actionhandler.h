@@ -250,6 +250,7 @@ public slots:
 	void slotBlocksEdit();
 	void slotBlocksSave();
 	void slotBlocksInsert();
+	void slotBlocksThumb();
 	void slotBlocksToggleView();
 	void slotBlocksCreate();
 	void slotBlocksExplode();

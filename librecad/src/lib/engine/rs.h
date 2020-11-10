@@ -375,6 +375,7 @@ public:
         ActionBlocksEdit,
         ActionBlocksSave,
         ActionBlocksInsert,
+        ActionBlocksThumb,  //add by guifeng
         ActionBlocksToggleView,
         ActionBlocksCreate,
         ActionBlocksCreateNoSelect,
