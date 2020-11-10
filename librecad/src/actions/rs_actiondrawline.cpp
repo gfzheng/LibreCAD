@@ -402,8 +402,8 @@ void RS_ActionDrawLine::addHistory(RS_ActionDrawLine::HistoryAction a, const RS_
     if (pPoints->historyIndex < -1) {
         pPoints->historyIndex = -1;
     }
-
-    pPoints->history.erase(pPoints->history.begin() + pPoints->historyIndex + 1, pPoints->history.end());
+    if(pPoints->history.size()>0)
+        pPoints->history.erase(pPoints->history.begin() + pPoints->historyIndex + 1, pPoints->history.end());
     pPoints->history.push_back( History( a, p, c, s));
     pPoints->historyIndex = static_cast<int>(pPoints->history.size() - 1);
 }
