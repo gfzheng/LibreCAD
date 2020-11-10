@@ -29,20 +29,23 @@
 
 #include <QWidget>
 #include <QIcon>
-#include <QAbstractTableModel>
+//#include <QAbstractTableModel>
+#include <QAbstractListModel>
 #include <QItemSelection>
 
 #include "rs_blocklistlistener.h"
 
 class QG_ActionHandler;
-class QTableView;
+//class QTableView;
+class QListView;
 class QLineEdit;
 
 
 /**
  * Implementation of a model to use in QG_BlockWidget
  */
-class QG_BlockModel: public QAbstractTableModel {
+//class QG_BlockModel: public QAbstractTableModel {
+class QG_BlockModel : public QAbstractListModel {
 public:
     enum {
         VISIBLE,
@@ -126,7 +129,8 @@ protected:
 private:
     RS_BlockList* blockList;
     QLineEdit* matchBlockName;
-    QTableView* blockView;
+    //QTableView* blockView;
+    QListView* blockView;
     QG_BlockModel *blockModel;
     RS_Block* lastBlock;
 

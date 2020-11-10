@@ -26,7 +26,8 @@
 **********************************************************************/
 
 #include <QScrollBar>
-#include <QTableView>
+//#include <QTableView>
+#include <QListView>
 #include <QHeaderView>
 #include <QToolButton>
 #include <QMenu>
@@ -42,7 +43,8 @@
 #include "qg_actionhandler.h"
 #include "rs_debug.h"
 
-QG_BlockModel::QG_BlockModel(QObject * parent) : QAbstractTableModel(parent) {
+//QG_BlockModel::QG_BlockModel(QObject * parent) : QAbstractTableModel(parent) {
+QG_BlockModel::QG_BlockModel(QObject* parent) : QAbstractListModel(parent) {
     blockVisible = QIcon(":/icons/visible.svg");
     blockHidden = QIcon(":/icons/invisible.svg");
 }
@@ -140,23 +142,30 @@ QG_BlockWidget::QG_BlockWidget(QG_ActionHandler* ah, QWidget* parent,
     lastBlock = NULL;
 
     blockModel = new QG_BlockModel;
-    blockView = new QTableView(this);
+    //blockView = new QTableView(this);
+    blockView = new QListView(this);
     blockView->setModel (blockModel);
-    blockView->setShowGrid (false);
+//    blockView->setShowGrid (false);
     blockView->setSelectionMode(QAbstractItemView::ExtendedSelection);
     blockView->setEditTriggers(QAbstractItemView::NoEditTriggers);
     blockView->setFocusPolicy(Qt::NoFocus);
-    blockView->setColumnWidth(QG_BlockModel::VISIBLE, 20);
-    blockView->verticalHeader()->hide();
-    blockView->horizontalHeader()->setStretchLastSection(true);
-    blockView->horizontalHeader()->hide();
+    blockView->setViewMode(QListView::IconMode);
+    blockView->setMovement(QListView::Static);
+    blockView->setFlow(QListView::LeftToRight);
+    blockView->setIconSize(QSize(80, 80));
+    blockView->setResizeMode(QListView::Adjust);
+    blockView->setGridSize(QSize(100, 100));
+//    blockView->setColumnWidth(QG_BlockModel::VISIBLE, 20);
+//    blockView->verticalHeader()->hide();
+//    blockView->horizontalHeader()->setStretchLastSection(true);
+//    blockView->horizontalHeader()->hide();
 
     QVBoxLayout* lay = new QVBoxLayout(this);
     lay->setSpacing ( 0 );
     lay->setContentsMargins(2, 2, 2, 2);
 
     QHBoxLayout* layButtons = new QHBoxLayout();
-    QHBoxLayout* layButtons2 = new QHBoxLayout();
+//    QHBoxLayout* layButtons2 = new QHBoxLayout();
     QToolButton* but;
     const QSize button_size(28,28);
     // show all blocks:
@@ -200,7 +209,8 @@ QG_BlockWidget::QG_BlockWidget(QG_ActionHandler* ah, QWidget* parent,
     but->setMinimumSize(button_size);
     but->setToolTip(tr("Rename the active block"));
     connect(but, &QToolButton::clicked, actionHandler, &QG_ActionHandler::slotBlocksAttributes);
-    layButtons2->addWidget(but);
+    //layButtons2->addWidget(but);
+    layButtons->addWidget(but);
     // edit block:
     but = new QToolButton(this);
     but->setIcon(QIcon(":/icons/properties.svg"));
@@ -208,21 +218,24 @@ QG_BlockWidget::QG_BlockWidget(QG_ActionHandler* ah, QWidget* parent,
     but->setToolTip(tr("Edit the active block\n"
                           "in a separate window"));
     connect(but, &QToolButton::clicked, actionHandler, &QG_ActionHandler::slotBlocksEdit);
-    layButtons2->addWidget(but);
+    //layButtons2->addWidget(but);
+    layButtons->addWidget(but);
     // save block:
     but = new QToolButton(this);
     but->setIcon(QIcon(":/icons/save.svg"));
     but->setMinimumSize(button_size);
     but->setToolTip(tr("save the active block to a file"));
     connect(but, &QToolButton::clicked, actionHandler, &QG_ActionHandler::slotBlocksSave);
-    layButtons2->addWidget(but);
+    //layButtons2->addWidget(but);
+    layButtons->addWidget(but);
     // insert block:
     but = new QToolButton(this);
     but->setIcon(QIcon(":/icons/insert_active_block.svg"));
     but->setMinimumSize(button_size);
     but->setToolTip(tr("Insert the active block"));
     connect(but, &QToolButton::clicked, actionHandler, &QG_ActionHandler::slotBlocksInsert);
-    layButtons2->addWidget(but);
+    //layButtons2->addWidget(but);
+    layButtons->addWidget(but);
 
     // lineEdit to filter block list with RegEx
     matchBlockName = new QLineEdit(this);
@@ -234,10 +247,11 @@ QG_BlockWidget::QG_BlockWidget(QG_ActionHandler* ah, QWidget* parent,
 
     lay->addWidget(matchBlockName);
     lay->addLayout(layButtons);
-    lay->addLayout(layButtons2);
+    //lay->addLayout(layButtons2);
     lay->addWidget(blockView);
 
-    connect(blockView, &QTableView::clicked, this, &QG_BlockWidget::slotActivated);
+    //connect(blockView, &QTableView::clicked, this, &QG_BlockWidget::slotActivated);
+    connect(blockView, &QListView::clicked, this, &QG_BlockWidget::slotActivated);
     connect(blockView->selectionModel(), &QItemSelectionModel::selectionChanged,
             this, &QG_BlockWidget::slotSelectionChanged);
 }
@@ -276,7 +290,7 @@ void QG_BlockWidget::update() {
     RS_Block* b = lastBlock;
     activateBlock(activeBlock);
     lastBlock = b;
-    blockView->resizeRowsToContents();
+    //blockView->resizeRowsToContents();
     blockView->verticalScrollBar()->setValue(yPos);
 
     restoreSelections();
@@ -482,10 +496,10 @@ void QG_BlockWidget::slotUpdateBlockList() {
         s = block->getName();
         int f = rx.indexIn(s, pos);
         if (!f) {
-            blockView->showRow(i);
+            //blockView->showRow(i);
             blockModel->getBlock(i)->visibleInBlockList(true);
         } else {
-            blockView->hideRow(i);
+            //blockView->hideRow(i);
             blockModel->getBlock(i)->visibleInBlockList(false);
         }
     }
