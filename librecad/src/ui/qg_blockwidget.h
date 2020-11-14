@@ -72,6 +72,9 @@ private:
     QList<RS_Block*> listBlock;
     QIcon blockVisible;
     QIcon blockHidden;
+    QIcon blockThumb1;
+    QIcon blockThumb2;
+    QIcon blockThumb3;
     RS_Block* activeBlock {nullptr};
 };
 

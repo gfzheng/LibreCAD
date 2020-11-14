@@ -201,5 +201,9 @@
         <file>close_all.svg</file>
         <file>save_all.svg</file>
         <file>scaleLineWidth.svg</file>
+        <file>update_block_thumb.svg</file>
+        <file>thumb1.png</file>
+        <file>thumb2.png</file>
+        <file>thumb3.png</file>
     </qresource>
 </RCC>
