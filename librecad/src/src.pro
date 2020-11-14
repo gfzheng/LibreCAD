@@ -326,6 +326,7 @@ HEADERS += actions/rs_actionblocksadd.h \
     actions/rs_actionblockssave.h \
     actions/rs_actionblocksexplode.h \
     actions/rs_actionblocksinsert.h \
+    actions/rs_actionblocksthumb.h \
     actions/rs_actionblocksfreezeall.h \
     actions/rs_actionblocksremove.h \
     actions/rs_actionblockstoggleview.h \
@@ -461,6 +462,7 @@ SOURCES += actions/rs_actionblocksadd.cpp \
     actions/rs_actionblockssave.cpp \
     actions/rs_actionblocksexplode.cpp \
     actions/rs_actionblocksinsert.cpp \
+    actions/rs_actionblocksthumb.cpp \
     actions/rs_actionblocksfreezeall.cpp \
     actions/rs_actionblocksremove.cpp \
     actions/rs_actionblockstoggleview.cpp \
