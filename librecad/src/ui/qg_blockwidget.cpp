@@ -47,9 +47,6 @@
 QG_BlockModel::QG_BlockModel(QObject* parent) : QAbstractListModel(parent) {
     blockVisible = QIcon(":/icons/visible.svg");
     blockHidden = QIcon(":/icons/invisible.svg");
-    blockThumb1 = QIcon(":/icons/thumb1.png");
-    blockThumb2 = QIcon(":/icons/thumb2.png");
-    blockThumb3 = QIcon(":/icons/thumb3.png");
 }
 
 int QG_BlockModel::rowCount ( const QModelIndex & /*parent*/ ) const {
@@ -114,17 +111,8 @@ QVariant QG_BlockModel::data ( const QModelIndex & index, int role ) const {
     if (role ==Qt::DecorationRole && index.column() == VISIBLE) {
         if (!blk->isFrozen()) {
             //RS_DEBUG->print("*******************************************%ld\n", blk->getId());
-            switch (index.row())
-            {
-            case 0:
-                return blockThumb3;
-                break;
-            case 1:
-                return blockThumb1;
-            case 2:
-                return blockThumb2;
-            }
-            //return blockVisible;
+            blk->updateThumb(); //可能有性能问题，待优化
+            return QIcon(*blk->getThumbPixmap());
         } else {
             return blockHidden;
         }

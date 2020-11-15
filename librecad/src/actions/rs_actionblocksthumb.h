@@ -29,6 +29,7 @@
 
 #include "rs_actioninterface.h"
 
+class RS_Insert;
 
 /**
  * This action class can handle user events to thumb blocks.
@@ -43,6 +44,9 @@ public:
 
 	void init(int status=0) override;
 	void trigger() override;
+
+private:
+	void addBlock(RS_Insert* in, RS_Graphic* g);
     
 };
 

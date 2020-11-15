@@ -30,6 +30,9 @@
 
 #include "rs_document.h"
 
+#include <QSize>;
+#include <QPixmap>;
+
 /**
  * Holds the data that defines a block.
  */
@@ -219,9 +222,41 @@ public:
      */
     QStringList findNestedInsert(const QString& bName);
 
+    //初始化缩略图
+    void initThumb() {
+        size = QSize(100, 100);
+        border = QSize(5, 5);
+        thumb = new QPixmap(size);
+    }
+
+    //缩略图大小
+    QSize getThumbSize() {
+        return size;
+    }
+
+    //缩略图边距
+    QSize getThumbBorder() {
+        return border;
+    }
+
+    //缩略图图像
+    QPixmap* getThumbPixmap() {
+        return thumb;
+    }
+
+    //更新缩略图
+    void updateThumb();
+
 protected:
 	//! Block data
 	RS_BlockData data;
+
+    //Thumbnail Icon
+    QPixmap* thumb;
+    //thumb size
+    QSize size;
+    //border size
+    QSize border;   
 };
 
 

@@ -29,6 +29,8 @@
 
 #include "rs_graphic.h"
 #include "rs_insert.h"
+#include "rs_painterqt.h"
+#include "rs_staticgraphicview.h"
 
 RS_BlockData::RS_BlockData(const QString& _name,
 						   const RS_Vector& _basePoint,
@@ -53,6 +55,8 @@ RS_Block::RS_Block(RS_EntityContainer* parent,
         : RS_Document(parent), data(d) {
 
     pen = RS_Pen(RS_Color(128,128,128), RS2::Width01, RS2::SolidLine);
+
+    initThumb();
 }
 
 
@@ -193,6 +197,47 @@ QStringList RS_Block::findNestedInsert(const QString& bName) {
     }
 
     return bnChain;
+}
+
+void RS_Block::updateThumb()
+{
+    RS_Graphic g(nullptr);
+    g.setOwner(false);
+    g.getBlockList()->setOwner(false);
+
+    g.clearLayers();
+    //           g.addLayer(b->getLayer());
+    for (RS_Entity* e = firstEntity(RS2::ResolveNone);
+        e;
+        e = nextEntity(RS2::ResolveNone)) {
+        g.addEntity(e);
+        //if (e->rtti() == RS2::EntityInsert) {
+        //    RS_Insert* in = static_cast<RS_Insert*>(e);
+        //    g.addBlock(in->getBlockForInsert());
+        //    addBlock(in, &g);
+        //}
+    }
+
+    // set buffer var
+    QPaintDevice* buffer = thumb;
+    // set painter with buffer
+    RS_PainterQt painter(buffer);
+
+    painter.setBackground(Qt::white);
+    painter.setDrawingMode(RS2::ModeBW);
+
+    painter.eraseRect(0, 0, size.width(), size.height());
+
+    RS_StaticGraphicView gv(size.width(), size.height(), &painter, &border);
+    gv.setBackground(Qt::white);
+
+    gv.setContainer(&g);
+    gv.zoomAuto(false);
+    gv.drawEntity(&painter, gv.getContainer());
+
+    // end the picture output
+    // GraphicView deletes painter
+    painter.end();
 }
 
 std::ostream& operator << (std::ostream& os, const RS_Block& b) {
